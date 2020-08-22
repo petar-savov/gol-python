@@ -12,12 +12,13 @@ def read(board: str) -> np.array:
 
 
 def transform(input_board: np.array) -> np.array:
+
     output_board = np.zeros(input_board.shape)
 
     for i, row in enumerate(input_board):
-        for j, column in enumerate(row):
-            neighbours = count_neighbours(pt = (i,j), board = input_board)
-            output_board[i,j] = rules(pt_val = input_board[i,j], neighbours=neighbours)
+        for j, _ in enumerate(row):
+            neighbours = count_neighbours(pt=(i,j), board=input_board)
+            output_board[i,j] = rules(pt_val=input_board[i,j], neighbours=neighbours)
 
     return output_board
 
@@ -31,6 +32,7 @@ def rules(pt_val, neighbours):
 
 
 def count_neighbours(pt, board) -> int:
+
     x, y = pt[0], pt[1]
     xmin = max(0,x-1)
     xmax = min(x+2,board.shape[0])
@@ -56,13 +58,13 @@ def animate(board: np.array):
     im = plt.imshow(board, cmap="Greys")
     plt.xticks([])
     plt.yticks([])
-
+    
     def init():
         return im,
 
     def move(i):
-        board=im.get_array()
-        board=transform(board)   
+        board = im.get_array()
+        board = transform(board)   
         im.set_array(board)
         return im,
     
@@ -74,5 +76,5 @@ if __name__=="__main__":
     with open("./examples.json") as f:
         examples = json.load(f)
 
-    board = read(examples['blinker'])
+    board = read(examples['pulsar'])
     animate(board)
