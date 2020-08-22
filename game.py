@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib import animation
+from matplotlib.animation import FuncAnimation
 import json
 
 def read(board: str) -> np.array:
@@ -49,15 +49,30 @@ def display(board: np.array):
     plt.yticks([])
     plt.show()
 
+
+def animate(board: np.array):
+
+    fig = plt.figure()
+    im = plt.imshow(board, cmap="Greys")
+    plt.xticks([])
+    plt.yticks([])
+
+    def init():
+        return im,
+
+    def move(i):
+        board=im.get_array()
+        board=transform(board)   
+        im.set_array(board)
+        return im,
+    
+    animation = FuncAnimation(fig, move, init_func=init, interval=1000, blit=True)
+    plt.show()
+
 if __name__=="__main__":
 
     with open("./examples.json") as f:
         examples = json.load(f)
 
-
     board = read(examples['blinker'])
-    display(board)
-    board2 = transform(board)
-    display(board2)
-    board3 = transform(board2)
-    display(board3)
+    animate(board)
