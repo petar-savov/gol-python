@@ -1,7 +1,9 @@
+import json
 import numpy as np
 import matplotlib.pyplot as plt
+from argparse import ArgumentParser
 from matplotlib.animation import FuncAnimation
-import json
+
 
 def read(board: str) -> np.array:
 
@@ -73,8 +75,13 @@ def animate(board: np.array):
 
 if __name__=="__main__":
 
+    parser = ArgumentParser()
+    parser.add_argument("-s", "--shape")
+    args = vars(parser.parse_args())
+    shape = args['shape']
+    
     with open("./examples.json") as f:
         examples = json.load(f)
 
-    board = read(examples['pulsar'])
+    board = read(examples[shape])
     animate(board)
